@@ -79,13 +79,13 @@ class SWImageViewerController: UIViewController, UIScrollViewDelegate {
     
     @objc fileprivate func scrollViewTapped(_ tap: UITapGestureRecognizer) {
         if navigationController == nil {
-            UIApplication.shared.isStatusBarHidden = false
+            hideStatusBarIfPossible(false)
             imageViewBackToOriginalFrameWithCompletionHandler({
                 self.dismiss(animated: false, completion: nil)
             })
         } else {
             navigationBarHidden = !navigationBarHidden
-            UIApplication.shared.isStatusBarHidden = navigationBarHidden
+            hideStatusBarIfPossible(navigationBarHidden)
             navigationController!.setNavigationBarHidden(navigationBarHidden, animated: false)
         }
         delegate?.imageViewerController?(self, scrollViewTapped: tap)
@@ -134,7 +134,7 @@ class SWImageViewerController: UIViewController, UIScrollViewDelegate {
         automaticallyAdjustsScrollViewInsets = false
         
         if navigationController == nil {
-            UIApplication.shared.isStatusBarHidden = true
+            hideStatusBarIfPossible(true)
         } else if navigationController!.viewControllers.first == self {
             navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(SWImageViewerController.leftButtonClicked(_:)))
         }
@@ -159,9 +159,23 @@ class SWImageViewerController: UIViewController, UIScrollViewDelegate {
         imageViewNormalFrame = imageViewFrame
     }
     
+    fileprivate var shouldUpdateStatusBar: Bool {
+        get {
+            var alpha = CGFloat(0)
+            scrollView.backgroundColor?.getRed(nil, green: nil, blue: nil, alpha: &alpha)
+            return alpha == 1
+        }
+    }
+    
+    fileprivate func hideStatusBarIfPossible(_ hide: Bool) {
+        if shouldUpdateStatusBar {
+            UIApplication.shared.isStatusBarHidden = hide
+        }
+    }
+    
     fileprivate var isFirstSetup = true
     
-    static let normalBackgroundColor = UIColor(white: 0, alpha: 0.9)
+    static let SWImageViewerNormalBackgroundColor = UIColor(white: 0, alpha: 0.9)
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -171,11 +185,11 @@ class SWImageViewerController: UIViewController, UIScrollViewDelegate {
                 imageView.frame = imageViewOriginalFrame
                 UIView.animate(withDuration: zoomImageViewAnimationDuration, animations: {
                     self.imageView.frame = self.imageViewNormalFrame
-                    self.scrollView.backgroundColor = SWImageViewerController.normalBackgroundColor
+                    self.scrollView.backgroundColor = SWImageViewerController.SWImageViewerNormalBackgroundColor
                 })
             } else {
                 imageView.frame = self.imageViewNormalFrame
-                scrollView.backgroundColor = SWImageViewerController.normalBackgroundColor
+                scrollView.backgroundColor = SWImageViewerController.SWImageViewerNormalBackgroundColor
             }
             
             isFirstSetup = false

@@ -218,12 +218,12 @@ class SWImageViewerPageVC: UIPageViewController, UIPageViewControllerDataSource,
     
     lazy var maskView: UIView = {
         let maskView = UIView()
-        maskView.backgroundColor = UIColor(white: 0, alpha: 0.9)
+        maskView.backgroundColor = SWImageViewerController.SWImageViewerNormalBackgroundColor
         self.scrollView.addSubview(maskView)
         return maskView
     }()
     
-    let contentViewControllerSpace = CGFloat(50)
+    fileprivate let contentViewControllerSpace = CGFloat(50)
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         print("Content size: \(scrollView.contentSize), content inset: \(scrollView.contentInset), content offset: \(scrollView.contentOffset)")
