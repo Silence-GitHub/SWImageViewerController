@@ -41,12 +41,12 @@ viewer.zoomsImageViewWhenViewDidLoad = false
 viewer.zoomsImageViewWhenGoingBack = false
 ```
 
-#### Present to show
+#### Show without navigation bar
 ```
 present(viewer, animated: true, completion: nil)
 ```
 
-#### Or push to show
+#### Or show with navigation bar
 ```
 let nc = UINavigationController(rootViewController: viewer)
 nc.modalPresentationStyle = .overCurrentContext
@@ -67,12 +67,12 @@ viewerPageVC.indexOfFirstImageToShow = index // index < imagesArrayToShow.count
 viewerPageVC.imageViewOriginalFrames = originalFramesArray // Use imageViewOriginalFramesObjc for Objective-C
 ```
 
-#### Present to show
+#### Show without navigation bar
 ```
 present(viewerPageVC, animated: true, completion: nil)
 ```
 
-#### Or push to show
+#### Or show with navigation bar
 ```
 let nc = UINavigationController(rootViewController: viewerPageVC)
 nc.modalPresentationStyle = .overCurrentContext
