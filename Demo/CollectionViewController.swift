@@ -42,7 +42,7 @@ class CollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
     
         if let imageCell = cell as? ImageCollectionViewCell {
-            imageCell.imageView.image = images[indexPath.section][indexPath.row]
+            imageCell.imageView.image = images[indexPath.section][indexPath.item]
         }
     
         return cell

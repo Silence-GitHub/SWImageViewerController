@@ -17,7 +17,7 @@ class SWImageViewerPageVC: UIPageViewController, UIPageViewControllerDataSource,
     // MARK: - Properties
     
     weak var viewerDelegate: SWImageViewerPageVCDelegate?
-    
+    var longPressToSaveImage = true
     var showDeleteButton = false
     
     var images: [UIImage]
@@ -119,6 +119,7 @@ class SWImageViewerPageVC: UIPageViewController, UIPageViewControllerDataSource,
             let vc2 = SWImageViewerController(image: image)
             vc2.delegate = self
             vc2.currentPage = index2 + 1
+            vc2.longPressToSaveImage = longPressToSaveImage
             vc2.zoomsImageViewWhenViewDidLoad = false
             if let frames = imageViewOriginalFrames, index2 < frames.count {
                vc2.imageViewOriginalFrame = frames[index2]
@@ -146,6 +147,7 @@ class SWImageViewerPageVC: UIPageViewController, UIPageViewControllerDataSource,
         if isFirstSetup {
             let vc = SWImageViewerController(image: images[indexOfFirstImageToShow])
             vc.delegate = self
+            vc.longPressToSaveImage = longPressToSaveImage
             vc.currentPage = indexOfFirstImageToShow + 1
             if let frames = imageViewOriginalFrames, indexOfFirstImageToShow < frames.count {
                 vc.imageViewOriginalFrame = frames[indexOfFirstImageToShow]
@@ -174,6 +176,7 @@ class SWImageViewerPageVC: UIPageViewController, UIPageViewControllerDataSource,
         let index = vc.currentPage - 2
         let vcToDisplay = SWImageViewerController(image: images[index])
         vcToDisplay.delegate = self
+        vcToDisplay.longPressToSaveImage = longPressToSaveImage
         vcToDisplay.currentPage = index + 1
         vcToDisplay.zoomsImageViewWhenViewDidLoad = false
         if let frames = imageViewOriginalFrames, index < frames.count {
@@ -193,6 +196,7 @@ class SWImageViewerPageVC: UIPageViewController, UIPageViewControllerDataSource,
         let index = vc.currentPage
         let vcToDisplay = SWImageViewerController(image: images[index])
         vcToDisplay.delegate = self
+        vcToDisplay.longPressToSaveImage = longPressToSaveImage
         vcToDisplay.currentPage = index + 1
         vcToDisplay.zoomsImageViewWhenViewDidLoad = false
         if let frames = imageViewOriginalFrames, index < frames.count {

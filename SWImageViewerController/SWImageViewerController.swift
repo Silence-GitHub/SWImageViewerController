@@ -29,6 +29,7 @@ class SWImageViewerController: UIViewController, UIScrollViewDelegate {
     fileprivate var navigationBarHidden = false // Keep track of hidden status of navigation bar and status bar
     
     var currentPage = 0
+    var longPressToSaveImage = true
     
     lazy var imageView: UIImageView = {
         let imageView = UIImageView(image: self.image)
@@ -36,9 +37,11 @@ class SWImageViewerController: UIViewController, UIScrollViewDelegate {
         imageView.clipsToBounds = true
         self.scrollView.addSubview(imageView)
         
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SWImageViewerController.imageViewLongPressed(_:)))
-        imageView.addGestureRecognizer(longPress)
-        imageView.isUserInteractionEnabled = true
+        if self.longPressToSaveImage {
+            let longPress = UILongPressGestureRecognizer(target: self, action: #selector(SWImageViewerController.imageViewLongPressed(_:)))
+            imageView.addGestureRecognizer(longPress)
+            imageView.isUserInteractionEnabled = true
+        }
         
         return imageView
     }()
